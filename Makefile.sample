@@ -13,6 +13,7 @@ CXXFLAGS += -MMD -MP -MF $@.d
 #Sources to compile
 SOURCES += \
 	sample_src/Sample
+	src/CGE_Core
 
 #What to compile
 OBJECTS = $(addprefix obj/$(FILENAME)/, $(addsuffix .o, $(SOURCES)))
