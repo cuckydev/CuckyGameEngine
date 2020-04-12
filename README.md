@@ -1,4 +1,4 @@
-NOTE: Not ready for release
+***NOTE: Not ready for usage***
 
 # CuckyGameEngine
 Game engine designed for 2D and 3D game development in C++.
