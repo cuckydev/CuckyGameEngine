@@ -13,7 +13,10 @@ CXXFLAGS += -MMD -MP -MF $@.d
 #Sources to compile
 SOURCES += \
 	sample_src/Sample
-	src/CGE_Core
+
+#Compile the CuckyGameEngine library with OpenGL backend
+CXXFLAGS += -DCGE_COMPILE_OPENGL
+CXXFLAGS += -Isrc
 
 #What to compile
 OBJECTS = $(addprefix obj/$(FILENAME)/, $(addsuffix .o, $(SOURCES)))
