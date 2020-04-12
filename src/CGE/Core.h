@@ -22,14 +22,10 @@ namespace CGE
 		{
 			public:
 				//Destructor
-				virtual ~INTERFACE() {};
-				
-				//Core interface
-				virtual bool Initialize() = 0;
-				virtual bool Quit() = 0;
+				virtual ~INTERFACE() {}
 		};
-		
-		//Backend classes
-		#include "OpenGL/Core.h"
 	}
 }
+
+//Backend classes
+#include "OpenGL/Core.h"
