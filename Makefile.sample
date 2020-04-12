@@ -1,0 +1,43 @@
+#Constants
+PKGCONFIG = pkg-config
+CXX = g++
+
+#Flags
+CXXFLAGS = -O3 -flto -Wall -Wextra -pedantic
+LDFLAGS = -s
+FILENAME ?= CuckyGameEngine_Sample
+
+#Other CXX flags (mostly stuff for wildcard dependencies)
+CXXFLAGS += -MMD -MP -MF $@.d
+
+#Sources to compile
+SOURCES += \
+	sample_src/Sample
+
+#What to compile
+OBJECTS = $(addprefix obj/$(FILENAME)/, $(addsuffix .o, $(SOURCES)))
+DEPENDENCIES = $(addprefix obj/$(FILENAME)/, $(addsuffix .o.d, $(SOURCES)))
+
+#Compile our code
+all: build/$(FILENAME)
+
+#Link executable
+build/$(FILENAME): $(OBJECTS)
+	@mkdir -p $(@D)
+	@echo Linking...
+	@$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@ $(LIBS)
+	@echo Finished linking $@
+
+#Compile source
+obj/$(FILENAME)/%.o: %.cpp
+	@mkdir -p $(@D)
+	@echo Compiling $<
+	@$(CXX) $(CXXFLAGS) $< -o $@ -c
+	@echo Compiled!
+
+#Include modified .h dependencies
+include $(wildcard $(DEPENDENCIES))
+
+#Remove all our compiled objects
+clean:
+	@rm -rf obj
