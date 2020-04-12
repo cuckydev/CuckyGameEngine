@@ -4,7 +4,7 @@
 Project: CuckyGameEngine
 
 File: Core.h
-Purpose: Provide the core module of the engine
+Purpose: Provide the core subsystem of the engine
 
 Authors: Regan Green (cuckydev)
 */
@@ -21,11 +21,12 @@ namespace CGE
 		class INTERFACE
 		{
 			public:
-				//Virtual destructor
-				virtual ~INTERFACE() {}
+				//Destructor
+				virtual ~INTERFACE() {};
 				
-				//Various functions
-				virtual void TestBackend() = 0;
+				//Core interface
+				virtual bool Initialize() = 0;
+				virtual bool Quit() = 0;
 		};
 		
 		//Backend classes
