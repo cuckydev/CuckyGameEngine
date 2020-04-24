@@ -3,20 +3,20 @@
 /*
 Project: CuckyGameEngine
 
-File: CGE/OpenGL/Core.h
-Purpose: Declare the OpenGL core subsystem class
+File: CGE/OpenGL/Render.h
+Purpose: Declare the OpenGL render subsystem class
 
 Authors: Regan Green (cuckydev)
 */
 
 //Base class
-#include "../Core.h"
+#include "../Render.h"
 
 //CuckyGameEngine namespace
 namespace CGE
 {
 	//Render namespace
-	namespace CORE
+	namespace RENDER
 	{
 		class INTERFACE_OPENGL : public INTERFACE_BASE
 		{
@@ -24,7 +24,7 @@ namespace CGE
 				
 			public:
 				//Constructor and destructor
-				INTERFACE_OPENGL();
+				INTERFACE_OPENGL(const CONFIG &_config);
 				~INTERFACE_OPENGL();
 		};
 	}

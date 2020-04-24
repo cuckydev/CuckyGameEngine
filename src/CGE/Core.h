@@ -3,29 +3,34 @@
 /*
 Project: CuckyGameEngine
 
-File: Core.h
-Purpose: Provide the core subsystem of the engine
+File: CGE/Core.h
+Purpose: Provide the core subsystem namespace
 
 Authors: Regan Green (cuckydev)
 */
 
-#include <iostream>
+//CuckyGameEngine classes
+#include "Error.h"
 
 //CuckyGameEngine namespace
 namespace CGE
 {
-	//Core namespace
+	//Render namespace
 	namespace CORE
 	{
-		//Core interface base class
-		class INTERFACE
+		//Render subsystem interface base class
+		class INTERFACE_BASE
 		{
+			protected:
+				//Error
+				ERROR error;
+				
 			public:
-				//Destructor
-				virtual ~INTERFACE() {}
+				//Virtual destructor
+				virtual ~INTERFACE_BASE() {}
+				
+				//Get error
+				inline ERROR GetError() const { return error; }
 		};
 	}
 }
-
-//Backend classes
-#include "OpenGL/Core.h"

@@ -5,17 +5,24 @@ CXX = g++
 #Flags
 CXXFLAGS = -O3 -flto -Wall -Wextra -pedantic
 LDFLAGS = -s
-FILENAME ?= CuckyGameEngine_Sample
+FILENAME ?= CGE_Sample
 
 #Other CXX flags (mostly stuff for wildcard dependencies)
 CXXFLAGS += -MMD -MP -MF $@.d
 
 #Sources to compile
 SOURCES += \
-	sample_src/Sample
+	Sample
 
 #Compile the CuckyGameEngine library with OpenGL backend
-CXXFLAGS += -DCGE_COMPILE_OPENGL
+CXXFLAGS += -DCGE_COMPILE_OPENGL `$(PKGCONFIG) --cflags glfw3`
+LIBS += `$(PKGCONFIG) --libs glfw3`
+SOURCES += \
+	src/CGE/CuckyGameEngine \
+	src/CGE/OpenGL/Core \
+	src/CGE/OpenGL/Render
+
+#Include the CuckyGameEngine library
 CXXFLAGS += -Isrc
 
 #What to compile
