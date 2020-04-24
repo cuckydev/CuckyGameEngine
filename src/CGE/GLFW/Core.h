@@ -3,8 +3,8 @@
 /*
 Project: CuckyGameEngine
 
-File: CGE/OpenGL/Core.h
-Purpose: Declare the OpenGL core subsystem class
+File: CGE/GLFW/Core.h
+Purpose: Declare the GLFW core subsystem class
 
 Authors: Regan Green (cuckydev)
 */
@@ -18,14 +18,14 @@ namespace CGE
 	//Render namespace
 	namespace CORE
 	{
-		class INTERFACE_OPENGL : public INTERFACE_BASE
+		class INTERFACE_GLFW : public INTERFACE_BASE
 		{
 			private:
 				
 			public:
 				//Constructor and destructor
-				INTERFACE_OPENGL();
-				~INTERFACE_OPENGL();
+				INTERFACE_GLFW();
+				~INTERFACE_GLFW();
 		};
 	}
 }

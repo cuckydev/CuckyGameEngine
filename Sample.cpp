@@ -7,7 +7,7 @@ int main()
 	static const CGE::CONFIG config =
 	{
 		//Backend to be used
-		CGE::BACKEND_OPENGL,
+		CGE::BACKEND_GLFW,
 		
 		//Render configuration
 		{

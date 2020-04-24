@@ -26,7 +26,7 @@ namespace CGE
 	enum BACKEND
 	{
 		BACKEND_NULL,
-		BACKEND_OPENGL,
+		BACKEND_GLFW,
 	};
 	
 	//Configuration structure
@@ -70,8 +70,8 @@ namespace CGE
 	};
 }
 
-//Include OpenGL backend subsystems
-#ifdef CGE_COMPILE_OPENGL
-	#include "OpenGL/Core.h"
+//Include GLFW backend subsystems
+#ifdef CGE_COMPILE_GLFW
+	#include "GLFW/Core.h"
 	#include "OpenGL/Render.h"
 #endif

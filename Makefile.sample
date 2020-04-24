@@ -15,11 +15,11 @@ SOURCES += \
 	Sample
 
 #Compile the CuckyGameEngine library with OpenGL backend
-CXXFLAGS += -DCGE_COMPILE_OPENGL `$(PKGCONFIG) --cflags glfw3`
+CXXFLAGS += -DCGE_COMPILE_GLFW `$(PKGCONFIG) --cflags glfw3`
 LIBS += `$(PKGCONFIG) --libs glfw3`
 SOURCES += \
 	src/CGE/CuckyGameEngine \
-	src/CGE/OpenGL/Core \
+	src/CGE/GLFW/Core \
 	src/CGE/OpenGL/Render
 
 #Include the CuckyGameEngine library

@@ -35,8 +35,8 @@ bool CGE::INSTANCE::SetConfig(const CONFIG &_config)
 				core = nullptr;
 				render = nullptr;
 				break;
-			case BACKEND_OPENGL:
-				core = new CGE::CORE::INTERFACE_OPENGL();
+			case BACKEND_GLFW:
+				core = new CGE::CORE::INTERFACE_GLFW();
 				render = new CGE::RENDER::INTERFACE_OPENGL(_config.renderConfig);
 				break;
 		}
