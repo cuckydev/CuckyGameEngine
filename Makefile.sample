@@ -20,6 +20,7 @@ LIBS += `$(PKGCONFIG) --libs glfw3`
 SOURCES += \
 	src/CGE/CuckyGameEngine \
 	src/CGE/GLFW/Core \
+	src/CGE/GLFW/Render \
 	src/CGE/OpenGL/Render
 
 #Include the CuckyGameEngine library

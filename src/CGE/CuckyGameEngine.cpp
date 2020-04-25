@@ -1,4 +1,19 @@
+/*
+Project: CuckyGameEngine
+
+File: CGE/CuckyGameEngine.cpp
+Purpose: Define the CuckyGameEngine instance class
+
+Authors: Regan Green (cuckydev)
+*/
+
 #include "CuckyGameEngine.h"
+
+//Include GLFW backend if used
+#ifdef CGE_COMPILE_GLFW
+	#include "GLFW/Core.h"
+	#include "GLFW/Render.h"
+#endif
 
 //Constructor and destructor
 CGE::INSTANCE::INSTANCE(const CONFIG &_config)
@@ -31,13 +46,16 @@ bool CGE::INSTANCE::SetConfig(const CONFIG &_config)
 		//Create new sub-system instances
 		switch (_config.backend)
 		{
-			case BACKEND_NULL:
-				core = nullptr;
-				render = nullptr;
-				break;
+		#ifdef CGE_COMPILE_GLFW
 			case BACKEND_GLFW:
 				core = new CGE::CORE::INTERFACE_GLFW();
-				render = new CGE::RENDER::INTERFACE_OPENGL(_config.renderConfig);
+				render = new CGE::RENDER::INTERFACE_GLFW(_config.renderConfig);
+				break;
+		#endif
+			default:
+				core = nullptr;
+				render = nullptr;
+				error.AddError("An unsupported backend was selected");
 				break;
 		}
 		

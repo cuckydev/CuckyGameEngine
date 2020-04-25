@@ -69,9 +69,3 @@ namespace CGE
 			inline ERROR GetError() const { return error; }
 	};
 }
-
-//Include GLFW backend subsystems
-#ifdef CGE_COMPILE_GLFW
-	#include "GLFW/Core.h"
-	#include "OpenGL/Render.h"
-#endif

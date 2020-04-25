@@ -20,9 +20,14 @@ int main()
 	};
 	
 	CGE::INSTANCE *cgeInstance = new CGE::INSTANCE(config);
-	if (cgeInstance->GetError().Errored())
+	if (cgeInstance == nullptr)
 	{
-		std::cout << cgeInstance->GetError().GetString();
+		std::cout << "CuckyGameInstance was not created" << std::endl;
+		return -1;
+	}
+	else if (cgeInstance->GetError().Errored())
+	{
+		std::cout << cgeInstance->GetError().GetString() << std::endl;
 		delete cgeInstance;
 		return -1;
 	}

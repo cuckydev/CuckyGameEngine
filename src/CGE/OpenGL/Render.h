@@ -4,7 +4,7 @@
 Project: CuckyGameEngine
 
 File: CGE/OpenGL/Render.h
-Purpose: Declare the OpenGL render subsystem class
+Purpose: Declare the OpenGL render subsystem base class
 
 Authors: Regan Green (cuckydev)
 */
@@ -23,9 +23,8 @@ namespace CGE
 			private:
 				
 			public:
-				//Constructor and destructor
-				INTERFACE_OPENGL(const CONFIG &_config);
-				~INTERFACE_OPENGL();
+				//Virtual destructor
+				virtual ~INTERFACE_OPENGL() {}
 		};
 	}
 }
