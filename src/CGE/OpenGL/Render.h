@@ -25,6 +25,10 @@ namespace CGE
 			public:
 				//Virtual destructor
 				virtual ~INTERFACE_OPENGL() {}
+				
+				//Render interface
+				virtual bool SetConfig(const CONFIG &config) = 0;
+				virtual bool Flip() = 0;
 		};
 	}
 }

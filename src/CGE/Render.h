@@ -28,11 +28,10 @@ namespace CGE
 			unsigned long framerate; //Target framerate (0 means only use VSync)
 			
 			//Compare operator
-			inline bool operator==(const CONFIG &x)
-			{
-				return (title == x.title) && (width == x.width) && (height == x.height)
-					&& (fullscreen == x.fullscreen) && (framerate == x.framerate);
-			}
+			inline bool operator==(const CONFIG &x) const
+			{ return (title == x.title) && (width == x.width) && (height == x.height) && (fullscreen == x.fullscreen) && (framerate == x.framerate); }
+			inline bool operator!=(const CONFIG &x) const
+			{ return (title != x.title) || (width != x.width) || (height != x.height) || (fullscreen != x.fullscreen) || (framerate != x.framerate); }
 		};
 		
 		//Render subsystem interface base class
@@ -42,14 +41,16 @@ namespace CGE
 				//Error
 				ERROR error;
 				
-				//Current configuration
-				CONFIG config;
+				//Used configuration
+				CONFIG useConfig;
 				
 			public:
 				//Virtual destructor
 				virtual ~INTERFACE_BASE() {}
 				
 				//Render interface
+				virtual bool SetConfig(const CONFIG &config) = 0;
+				virtual bool Flip() = 0;
 				
 				//Get error
 				inline ERROR GetError() const { return error; }

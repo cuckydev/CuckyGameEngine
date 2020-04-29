@@ -4,10 +4,14 @@
 Project: CuckyGameEngine
 
 File: CGE/GLFW/Core.h
-Purpose: Declare the GLFW core subsystem class
+Purpose: Define the GLFW core subsystem class
 
 Authors: Regan Green (cuckydev)
 */
+
+//Libraries
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 //Base class
 #include "../Core.h"
@@ -24,8 +28,18 @@ namespace CGE
 				
 			public:
 				//Constructor and destructor
-				INTERFACE_GLFW();
-				~INTERFACE_GLFW();
+				INTERFACE_GLFW()
+				{
+					//Initialize GLFW
+					if (!glfwInit())
+						error.AddError("Failed to initialize GLFW");
+				}
+				
+				~INTERFACE_GLFW()
+				{
+					//Terminate GLFW
+					glfwTerminate();
+				}
 		};
 	}
 }

@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/CGE_Sample.dir/Sample.cpp.o CMakeFiles/CGE_Sample.dir/src/CGE/CuckyGameEngine.cpp.o  -o CGE_Sample  -lglfw -lGLEW -lGLU -lGL 

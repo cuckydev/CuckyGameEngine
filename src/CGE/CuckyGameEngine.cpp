@@ -16,10 +16,10 @@ Authors: Regan Green (cuckydev)
 #endif
 
 //Constructor and destructor
-CGE::INSTANCE::INSTANCE(const CONFIG &_config)
+CGE::INSTANCE::INSTANCE(const CONFIG &config)
 {
 	//Use the given config
-	SetConfig(_config);
+	SetConfig(config);
 }
 
 CGE::INSTANCE::~INSTANCE()
@@ -32,10 +32,10 @@ CGE::INSTANCE::~INSTANCE()
 }
 
 //Set configuration
-bool CGE::INSTANCE::SetConfig(const CONFIG &_config)
+bool CGE::INSTANCE::SetConfig(const CONFIG &config)
 {
 	//If backend is changed, recreate all sub-systems
-	if (_config.backend != config.backend)
+	if (config.backend != useConfig.backend)
 	{
 		//Destroy previous sub-system instances
 		if (core != nullptr)
@@ -44,12 +44,12 @@ bool CGE::INSTANCE::SetConfig(const CONFIG &_config)
 			delete render;
 		
 		//Create new sub-system instances
-		switch (_config.backend)
+		switch (config.backend)
 		{
 		#ifdef CGE_COMPILE_GLFW
 			case BACKEND_GLFW:
 				core = new CGE::CORE::INTERFACE_GLFW();
-				render = new CGE::RENDER::INTERFACE_GLFW(_config.renderConfig);
+				render = new CGE::RENDER::INTERFACE_GLFW(config.renderConfig);
 				break;
 		#endif
 			default:
@@ -72,10 +72,16 @@ bool CGE::INSTANCE::SetConfig(const CONFIG &_config)
 	}
 	else
 	{
-		
+		if (config.renderConfig != useConfig.renderConfig)
+		{
+			if (render == nullptr)
+				error.AddError("Can't change configuration of null render sub-system instance");
+			else
+				render->SetConfig(config.renderConfig);
+		}
 	}
 	
 	//Remember the given config
-	config = _config;
+	useConfig = config;
 	return error.Errored();
 }

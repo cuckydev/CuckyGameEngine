@@ -1,5 +1,6 @@
 #include <iostream>
 #include <CGE/CuckyGameEngine.h>
+#include <GL/glew.h>
 
 int main()
 {
@@ -15,7 +16,7 @@ int main()
 			640, 480, //Screen dimensions
 			true, //Resizable
 			false, //Fullscreen
-			0, //Target framerate (0 means only use VSync)
+			30, //Target framerate (0 means only use VSync)
 		},
 	};
 	
@@ -30,6 +31,17 @@ int main()
 		std::cout << cgeInstance->GetError().GetString() << std::endl;
 		delete cgeInstance;
 		return -1;
+	}
+	
+	GLfloat screenFlash = 0.0f;
+	while (1)
+	{
+		screenFlash += 1.0f / 30.0f;
+		if (screenFlash > 1.0f)
+			screenFlash -= 1.0f;
+		glClearColor(screenFlash, screenFlash, screenFlash, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		cgeInstance->GetRender()->Flip();
 	}
 	
 	//Buh-bye!

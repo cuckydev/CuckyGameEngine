@@ -1,9 +1,2 @@
-# Exclude obj directory (object files for Makefile build)
-/obj
-
-# Exclude the build executable and other stuff
-build/error.log
-build/*.exe
-build/*.dll
-build/*.zip
-build/*.7z
+# Exclude the build directory
+/build

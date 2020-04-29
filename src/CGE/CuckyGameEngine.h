@@ -46,8 +46,8 @@ namespace CGE
 			//Error
 			ERROR error;
 			
-			//Current configuration
-			CONFIG config;
+			//Used configuration
+			CONFIG useConfig;
 			
 			//Sub-system interfaces
 			CORE::INTERFACE_BASE *core = nullptr;
@@ -55,11 +55,11 @@ namespace CGE
 			
 		public:
 			//Constructor and destructor
-			INSTANCE(const CONFIG &_config);
+			INSTANCE(const CONFIG &config);
 			~INSTANCE();
 			
 			//Set configuration
-			bool SetConfig(const CONFIG &_config);
+			bool SetConfig(const CONFIG &config);
 			
 			//Get sub-system interface pointers
 			inline CORE::INTERFACE_BASE		*GetCore() const	{ return core; }

@@ -25,8 +25,8 @@ namespace CGE
 			
 		public:
 			//Add error(s) to list
-			inline void AddError(const ERROR &error)	{ errorList.push_back(error.GetString()); }
-			inline void AddError(std::string error)		{ errorList.push_back(error); }
+			inline bool AddError(const ERROR &error)	{ errorList.push_back(error.GetString()); return true; }
+			inline bool AddError(std::string error)		{ errorList.push_back(error); return true; }
 			
 			//Clear all errors in the error list
 			inline void ClearErrors() { errorList.clear(); }
