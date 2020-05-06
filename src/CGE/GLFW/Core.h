@@ -32,7 +32,7 @@ namespace CGE
 				{
 					//Initialize GLFW
 					if (!glfwInit())
-						error.AddError("Failed to initialize GLFW");
+						error.Add("Failed to initialize GLFW");
 				}
 				
 				~Interface_GLFW()

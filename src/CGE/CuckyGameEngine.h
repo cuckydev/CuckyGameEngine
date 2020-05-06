@@ -36,7 +36,7 @@ namespace CGE
 		Backend backend;
 		
 		//Render configuration
-		Render::Config renderConfig;
+		Render::Config render_config;
 	};
 	
 	//CuckyGameEngine instance class (holds all subsystems)
@@ -47,7 +47,7 @@ namespace CGE
 			Error error;
 			
 			//Used configuration
-			Config useConfig;
+			Config use_config;
 			
 			//Sub-system interfaces
 			Core::Interface_Base *core = nullptr;

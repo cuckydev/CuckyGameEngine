@@ -34,8 +34,8 @@ namespace CGE
 				GLFWwindow *window = nullptr;
 				
 				//Framerate limiter
-				bool useVSync;
-				std::chrono::time_point<std::chrono::high_resolution_clock> frlTime;
+				bool use_vsync;
+				std::chrono::time_point<std::chrono::high_resolution_clock> lim_time;
 				
 			public:
 				//Constructor and destructor
@@ -58,11 +58,11 @@ namespace CGE
 					//Get our primary monitor and video mode
 					GLFWmonitor *monitor = glfwGetPrimaryMonitor();
 					if (monitor == nullptr)
-						return error.AddError("Failed to get primary monitor");
+						return error.Add("Failed to get primary monitor");
 					
 					const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 					if (mode == nullptr)
-						return error.AddError("Failed to get primary monitor's video mode");
+						return error.Add("Failed to get primary monitor's video mode");
 					
 					unsigned long x, y, width, height;
 					if (config.fullscreen)
@@ -101,7 +101,7 @@ namespace CGE
 						
 						//Create our window
 						if ((window = glfwCreateWindow(width, height, config.title.c_str(), monitor, nullptr)) == nullptr)
-							return error.AddError("Failed to create GLFW window");
+							return error.Add("Failed to create GLFW window");
 							
 						//Initialize OpenGL (GLEW)
 						glfwMakeContextCurrent(window);
@@ -109,11 +109,11 @@ namespace CGE
 						//Initialize GLEW
 						GLenum glewError;
 						if ((glewError = glewInit()) != GLEW_OK)
-							return error.AddError(std::string((const char*)glewGetErrorString(glewError)));
+							return error.Add(std::string((const char*)glewGetErrorString(glewError)));
 						
 						//Final check if OpenGL 3.2 is supported
 						if (!GLEW_VERSION_3_2)
-							return error.AddError("OpenGL 3.2 not supported through GLEW");
+							return error.Add("OpenGL 3.2 not supported through GLEW");
 					}
 					else if (config.fullscreen != useConfig.fullscreen)
 					{
@@ -125,24 +125,24 @@ namespace CGE
 					if (config.framerate != 0)
 					{
 						//Get if our framerate is a multiple of our monitor's refresh rate
-						unsigned long vsyncMultiple;
-						long double refreshIntegral;
-						long double refreshFractional = std::modf((long double)mode->refreshRate / config.framerate, &refreshIntegral);
+						unsigned long vsync_multiple;
+						long double refresh_integral;
+						long double refresh_fractional = std::modf((long double)mode->refreshRate / config.framerate, &refresh_integral);
 						
-						if (refreshIntegral >= 1.0 && refreshFractional == 0.0)
-							vsyncMultiple = (unsigned long)std::floor(refreshIntegral);
+						if (refresh_integral >= 1.0 && refresh_fractional == 0.0)
+							vsync_multiple = (unsigned long)std::floor(refresh_integral);
 						else
-							vsyncMultiple = 0;
+							vsync_multiple = 0;
 							
 						//Use VSync if VSync multiple has been found to be non-zero
-						glfwSwapInterval(vsyncMultiple);
-						useVSync = vsyncMultiple != 0;
+						glfwSwapInterval(vsync_multiple);
+						use_vsync = vsync_multiple != 0;
 					}
 					else
 					{
 						//Use VSync, and don't care about the multiple
 						glfwSwapInterval(1);
-						useVSync = true;
+						use_vsync = true;
 					}
 					
 					//Use the given configuration
@@ -155,16 +155,16 @@ namespace CGE
 				bool Flip()
 				{
 					//Wait if VSync is not being used
-					if (useVSync == 0)
+					if (use_vsync == 0)
 					{
 						//Wait for next frame
 						auto now = std::chrono::high_resolution_clock::now();
 						auto frameDuration = std::chrono::microseconds(1000000 / useConfig.framerate);
-						frlTime += frameDuration;
-						if (now > frlTime + frameDuration * 10)
-							frlTime = now; //Fix timer if out of sync
+						lim_time += frameDuration;
+						if (now > lim_time + frameDuration * 10)
+							lim_time = now; //Fix timer if out of sync
 						else
-							std::this_thread::sleep_until(frlTime);
+							std::this_thread::sleep_until(lim_time);
 					}
 					
 					//Swap buffers

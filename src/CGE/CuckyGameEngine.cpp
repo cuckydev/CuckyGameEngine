@@ -35,7 +35,7 @@ CGE::Instance::~Instance()
 bool CGE::Instance::SetConfig(const Config &config)
 {
 	//If backend is changed, recreate all sub-systems
-	if (config.backend != useConfig.backend)
+	if (config.backend != use_config.backend)
 	{
 		//Destroy previous sub-system instances
 		if (core != nullptr)
@@ -49,39 +49,39 @@ bool CGE::Instance::SetConfig(const Config &config)
 		#ifdef CGE_COMPILE_GLFW
 			case Backend::GLFW:
 				core = new CGE::Core::Interface_GLFW();
-				render = new CGE::Render::Interface_GLFW(config.renderConfig);
+				render = new CGE::Render::Interface_GLFW(config.render_config);
 				break;
 		#endif
 			default:
 				core = nullptr;
 				render = nullptr;
-				error.AddError("An unsupported backend was selected");
+				error.Add("An unsupported backend was selected");
 				break;
 		}
 		
 		//Check for sub-system creation errors
 		if (core == nullptr)
-			error.AddError("Failed to create core sub-system instance");
+			error.Add("Failed to create core sub-system instance");
 		else if (core->GetError().Errored())
-			error.AddError(core->GetError());
+			error.Add(core->GetError());
 			
 		if (render == nullptr)
-			error.AddError("Failed to create render sub-system instance");
+			error.Add("Failed to create render sub-system instance");
 		else if (render->GetError().Errored())
-			error.AddError(render->GetError());
+			error.Add(render->GetError());
 	}
 	else
 	{
-		if (config.renderConfig != useConfig.renderConfig)
+		if (config.render_config != use_config.render_config)
 		{
 			if (render == nullptr)
-				error.AddError("Can't change configuration of null render sub-system instance");
+				error.Add("Can't change configuration of null render sub-system instance");
 			else
-				render->SetConfig(config.renderConfig);
+				render->SetConfig(config.render_config);
 		}
 	}
 	
 	//Remember the given config
-	useConfig = config;
+	use_config = config;
 	return error.Errored();
 }
