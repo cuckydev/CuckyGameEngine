@@ -5,10 +5,10 @@
 int main()
 {
 	//Create a CuckyGameEngine instance
-	static const CGE::CONFIG config =
+	static const CGE::Config config =
 	{
 		//Backend to be used
-		CGE::BACKEND_GLFW,
+		CGE::Backend::GLFW,
 		
 		//Render configuration
 		{
@@ -16,11 +16,11 @@ int main()
 			640, 480, //Screen dimensions
 			true, //Resizable
 			false, //Fullscreen
-			30, //Target framerate (0 means only use VSync)
+			0, //Target framerate (0 means only use VSync)
 		},
 	};
 	
-	CGE::INSTANCE *cgeInstance = new CGE::INSTANCE(config);
+	CGE::Instance *cgeInstance = new CGE::Instance(config);
 	if (cgeInstance == nullptr)
 	{
 		std::cout << "CuckyGameInstance was not created" << std::endl;
@@ -33,18 +33,7 @@ int main()
 		return -1;
 	}
 	
-	GLfloat screenFlash = 0.0f;
-	while (1)
-	{
-		screenFlash += 1.0f / 30.0f;
-		if (screenFlash > 1.0f)
-			screenFlash -= 1.0f;
-		glClearColor(screenFlash, screenFlash, screenFlash, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		cgeInstance->GetRender()->Flip();
-	}
-	
-	//Buh-bye!
+	//End CGE program
 	delete cgeInstance;
 	return 0;
 }

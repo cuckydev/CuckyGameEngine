@@ -16,21 +16,21 @@ Authors: Regan Green (cuckydev)
 namespace CGE
 {
 	//Render namespace
-	namespace CORE
+	namespace Core
 	{
 		//Render subsystem interface base class
-		class INTERFACE_BASE
+		class Interface_Base
 		{
 			protected:
 				//Error
-				ERROR error;
+				Error error;
 				
 			public:
 				//Virtual destructor
-				virtual ~INTERFACE_BASE() {}
+				virtual ~Interface_Base() {}
 				
 				//Get error
-				inline ERROR GetError() const { return error; }
+				inline const Error &GetError() const { return error; }
 		};
 	}
 }

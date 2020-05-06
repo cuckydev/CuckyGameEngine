@@ -16,18 +16,18 @@ Authors: Regan Green (cuckydev)
 namespace CGE
 {
 	//Render namespace
-	namespace RENDER
+	namespace Render
 	{
-		class INTERFACE_OPENGL : public INTERFACE_BASE
+		class Interface_OpenGL : public Interface_Base
 		{
 			private:
 				
 			public:
 				//Virtual destructor
-				virtual ~INTERFACE_OPENGL() {}
+				virtual ~Interface_OpenGL() {}
 				
 				//Render interface
-				virtual bool SetConfig(const CONFIG &config) = 0;
+				virtual bool SetConfig(const Config &config) = 0;
 				virtual bool Flip() = 0;
 		};
 	}

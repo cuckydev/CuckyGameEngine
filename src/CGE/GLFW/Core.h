@@ -20,22 +20,22 @@ Authors: Regan Green (cuckydev)
 namespace CGE
 {
 	//Render namespace
-	namespace CORE
+	namespace Core
 	{
-		class INTERFACE_GLFW : public INTERFACE_BASE
+		class Interface_GLFW : public Interface_Base
 		{
 			private:
 				
 			public:
 				//Constructor and destructor
-				INTERFACE_GLFW()
+				Interface_GLFW()
 				{
 					//Initialize GLFW
 					if (!glfwInit())
 						error.AddError("Failed to initialize GLFW");
 				}
 				
-				~INTERFACE_GLFW()
+				~Interface_GLFW()
 				{
 					//Terminate GLFW
 					glfwTerminate();

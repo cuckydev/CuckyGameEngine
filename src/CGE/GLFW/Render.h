@@ -14,7 +14,8 @@ Authors: Regan Green (cuckydev)
 //#include <GLFW/glfw3.h>
 
 //Standard library
-#include <iostream>
+#include <chrono>
+#include <thread>
 #include <cmath>
 
 //Base class
@@ -24,9 +25,9 @@ Authors: Regan Green (cuckydev)
 namespace CGE
 {
 	//Render namespace
-	namespace RENDER
+	namespace Render
 	{
-		class INTERFACE_GLFW : public INTERFACE_OPENGL
+		class Interface_GLFW : public Interface_OpenGL
 		{
 			private:
 				//GLFW window
@@ -34,16 +35,17 @@ namespace CGE
 				
 				//Framerate limiter
 				bool useVSync;
+				std::chrono::time_point<std::chrono::high_resolution_clock> frlTime;
 				
 			public:
 				//Constructor and destructor
-				INTERFACE_GLFW(const CONFIG &config)
+				Interface_GLFW(const Config &config)
 				{
 					//Use the given configuration
 					SetConfig(config);
 				}
 				
-				~INTERFACE_GLFW()
+				~Interface_GLFW()
 				{
 					//Destroy current window
 					if (window != nullptr)
@@ -51,7 +53,7 @@ namespace CGE
 				}
 				
 				//Render interface
-				bool SetConfig(const CONFIG &config)
+				bool SetConfig(const Config &config)
 				{
 					//Get our primary monitor and video mode
 					GLFWmonitor *monitor = glfwGetPrimaryMonitor();
@@ -92,10 +94,10 @@ namespace CGE
 						
 						//Set window hints
 						glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-						glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 						glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 						glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-						glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); //OpenGL 3.3 core
+						glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+						glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //OpenGL 3.2 core
 						
 						//Create our window
 						if ((window = glfwCreateWindow(width, height, config.title.c_str(), monitor, nullptr)) == nullptr)
@@ -108,6 +110,10 @@ namespace CGE
 						GLenum glewError;
 						if ((glewError = glewInit()) != GLEW_OK)
 							return error.AddError(std::string((const char*)glewGetErrorString(glewError)));
+						
+						//Final check if OpenGL 3.2 is supported
+						if (!GLEW_VERSION_3_2)
+							return error.AddError("OpenGL 3.2 not supported through GLEW");
 					}
 					else if (config.fullscreen != useConfig.fullscreen)
 					{
@@ -148,6 +154,20 @@ namespace CGE
 				
 				bool Flip()
 				{
+					//Wait if VSync is not being used
+					if (useVSync == 0)
+					{
+						//Wait for next frame
+						auto now = std::chrono::high_resolution_clock::now();
+						auto frameDuration = std::chrono::microseconds(1000000 / useConfig.framerate);
+						frlTime += frameDuration;
+						if (now > frlTime + frameDuration * 10)
+							frlTime = now; //Fix timer if out of sync
+						else
+							std::this_thread::sleep_until(frlTime);
+					}
+					
+					//Swap buffers
 					glfwSwapBuffers(window);
 					return false;
 				}

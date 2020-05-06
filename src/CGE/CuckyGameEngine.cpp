@@ -16,13 +16,13 @@ Authors: Regan Green (cuckydev)
 #endif
 
 //Constructor and destructor
-CGE::INSTANCE::INSTANCE(const CONFIG &config)
+CGE::Instance::Instance(const Config &config)
 {
 	//Use the given config
 	SetConfig(config);
 }
 
-CGE::INSTANCE::~INSTANCE()
+CGE::Instance::~Instance()
 {
 	//Delete all loaded sub-systems
 	if (core != nullptr)
@@ -32,7 +32,7 @@ CGE::INSTANCE::~INSTANCE()
 }
 
 //Set configuration
-bool CGE::INSTANCE::SetConfig(const CONFIG &config)
+bool CGE::Instance::SetConfig(const Config &config)
 {
 	//If backend is changed, recreate all sub-systems
 	if (config.backend != useConfig.backend)
@@ -47,9 +47,9 @@ bool CGE::INSTANCE::SetConfig(const CONFIG &config)
 		switch (config.backend)
 		{
 		#ifdef CGE_COMPILE_GLFW
-			case BACKEND_GLFW:
-				core = new CGE::CORE::INTERFACE_GLFW();
-				render = new CGE::RENDER::INTERFACE_GLFW(config.renderConfig);
+			case Backend::GLFW:
+				core = new CGE::Core::Interface_GLFW();
+				render = new CGE::Render::Interface_GLFW(config.renderConfig);
 				break;
 		#endif
 			default:
@@ -62,7 +62,7 @@ bool CGE::INSTANCE::SetConfig(const CONFIG &config)
 		//Check for sub-system creation errors
 		if (core == nullptr)
 			error.AddError("Failed to create core sub-system instance");
-		else if (render->GetError().Errored())
+		else if (core->GetError().Errored())
 			error.AddError(core->GetError());
 			
 		if (render == nullptr)

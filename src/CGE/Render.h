@@ -16,10 +16,10 @@ Authors: Regan Green (cuckydev)
 namespace CGE
 {
 	//Render namespace
-	namespace RENDER
+	namespace Render
 	{
 		//Render configuration
-		struct CONFIG
+		struct Config
 		{
 			std::string title; //Window title
 			unsigned long width, height; //Window dimensions
@@ -28,32 +28,32 @@ namespace CGE
 			unsigned long framerate; //Target framerate (0 means only use VSync)
 			
 			//Compare operator
-			inline bool operator==(const CONFIG &x) const
+			inline bool operator==(const Config &x) const
 			{ return (title == x.title) && (width == x.width) && (height == x.height) && (fullscreen == x.fullscreen) && (framerate == x.framerate); }
-			inline bool operator!=(const CONFIG &x) const
+			inline bool operator!=(const Config &x) const
 			{ return (title != x.title) || (width != x.width) || (height != x.height) || (fullscreen != x.fullscreen) || (framerate != x.framerate); }
 		};
 		
 		//Render subsystem interface base class
-		class INTERFACE_BASE
+		class Interface_Base
 		{
 			protected:
 				//Error
-				ERROR error;
+				Error error;
 				
 				//Used configuration
-				CONFIG useConfig;
+				Config useConfig;
 				
 			public:
 				//Virtual destructor
-				virtual ~INTERFACE_BASE() {}
+				virtual ~Interface_Base() {}
 				
 				//Render interface
-				virtual bool SetConfig(const CONFIG &config) = 0;
+				virtual bool SetConfig(const Config &config) = 0;
 				virtual bool Flip() = 0;
 				
 				//Get error
-				inline ERROR GetError() const { return error; }
+				inline const Error &GetError() const { return error; }
 		};
 	}
 }

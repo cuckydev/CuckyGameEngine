@@ -10,6 +10,7 @@ Authors: Regan Green (cuckydev)
 */
 
 //Standard library
+#include <iostream>
 #include <vector>
 #include <string>
 
@@ -17,7 +18,7 @@ Authors: Regan Green (cuckydev)
 namespace CGE
 {
 	//Error class
-	class ERROR
+	class Error
 	{
 		private:
 			//Error list
@@ -25,7 +26,7 @@ namespace CGE
 			
 		public:
 			//Add error(s) to list
-			inline bool AddError(const ERROR &error)	{ errorList.push_back(error.GetString()); return true; }
+			inline bool AddError(const Error &error)	{ errorList.push_back(error.GetString()); return true; }
 			inline bool AddError(std::string error)		{ errorList.push_back(error); return true; }
 			
 			//Clear all errors in the error list
