@@ -9,23 +9,36 @@ option(CGE_COMPILE_GLFW "Compile the GLFW backend" ON)
 # Setup #
 #########
 
+# Define project, source, and includes
 project(CGE_Sample LANGUAGES CXX)
 
 add_executable(CGE_Sample WIN32
 	"Sample.cpp"
 	"src/CGE/CuckyGameEngine.cpp"
+	"src/CGE/Error.cpp"
+	"src/CGE/Math.cpp"
 )
 
 target_include_directories(CGE_Sample PRIVATE "src")
+
+# Force strict C++17
+set_target_properties(CGE_Sample PROPERTIES
+	CXX_STANDARD 17
+	CXX_STANDARD_REQUIRED ON
+	CXX_EXTENSIONS OFF
+)
 
 #######################
 # CGE Backend Linking #
 #######################
 find_package(PkgConfig QUIET)
 
+# Link and include GLFW backend
 if(CGE_COMPILE_GLFW)
-	# Tell CGE to include the backend code
+	# Include the backend code
 	target_compile_definitions(CGE_Sample PRIVATE CGE_COMPILE_GLFW)
+	target_sources(CGE_Sample PRIVATE "src/CGE/GLFW/Core.cpp")
+	target_sources(CGE_Sample PRIVATE "src/CGE/GLFW/Render.cpp")
 	
 	# Link GLFW3
 	find_package(GLFW3)
@@ -35,13 +48,18 @@ if(CGE_COMPILE_GLFW)
 	target_compile_options(CGE_Sample PRIVATE ${glfw3_CFLAGS})
 	target_link_libraries(CGE_Sample PRIVATE ${glfw3_LDFLAGS})
 	
-	#Link GLEW
+	# Link GLEW
 	find_package(GLEW)
 	if (PKG_CONFIG_FOUND)
 		pkg_check_modules(glew QUIET IMPORTED_TARGET glew)
 	endif()
 	target_compile_options(CGE_Sample PRIVATE ${glew_CFLAGS})
 	target_link_libraries(CGE_Sample PRIVATE ${glew_LDFLAGS})
+endif()
+
+# Include OpenGL base code if an OpenGL backend is used
+if(CGE_COMPILE_GLFW)
+	target_sources(CGE_Sample PRIVATE "src/CGE/OpenGL/Render.cpp")
 endif()
 
 ##########

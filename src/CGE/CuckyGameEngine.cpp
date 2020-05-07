@@ -55,27 +55,27 @@ bool CGE::Instance::SetConfig(const Config &config)
 			default:
 				core = nullptr;
 				render = nullptr;
-				error.Add("An unsupported backend was selected");
+				error.Push("An unsupported backend was selected");
 				break;
 		}
 		
 		//Check for sub-system creation errors
 		if (core == nullptr)
-			error.Add("Failed to create core sub-system instance");
-		else if (core->GetError().Errored())
-			error.Add(core->GetError());
+			error.Push("Failed to create core sub-system instance");
+		else if (core->GetError())
+			error.Push(core->GetError());
 			
 		if (render == nullptr)
-			error.Add("Failed to create render sub-system instance");
-		else if (render->GetError().Errored())
-			error.Add(render->GetError());
+			error.Push("Failed to create render sub-system instance");
+		else if (render->GetError())
+			error.Push(render->GetError());
 	}
 	else
 	{
 		if (config.render_config != use_config.render_config)
 		{
 			if (render == nullptr)
-				error.Add("Can't change configuration of null render sub-system instance");
+				error.Push("Can't change configuration of null render sub-system instance");
 			else
 				render->SetConfig(config.render_config);
 		}
@@ -83,5 +83,5 @@ bool CGE::Instance::SetConfig(const Config &config)
 	
 	//Remember the given config
 	use_config = config;
-	return error.Errored();
+	return (bool)error;
 }

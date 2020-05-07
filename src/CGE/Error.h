@@ -4,7 +4,7 @@
 Project: CuckyGameEngine
 
 File: CGE/Error.h
-Purpose: Define the CuckyGameEngine error class
+Purpose: Declare the CuckyGameEngine error class
 
 Authors: Regan Green (cuckydev)
 */
@@ -25,30 +25,18 @@ namespace CGE
 			std::vector<std::string> error_list;
 			
 		public:
-			//Add error(s) to list
-			inline bool Add(const Error &error)	{ error_list.push_back(error.GetString()); return true; }
-			inline bool Add(std::string error)	{ error_list.push_back(error); return true; }
+			//Add error to error list
+			bool Push(const Error &error) { error_list.push_back(error.ToString()); return true; }
+			bool Push(const std::string &error) { error_list.push_back(error); return true; }
 			
 			//Clear all errors in the error list
-			inline void Clear() { error_list.clear(); }
+			void Clear() { error_list.clear(); }
 			
-			std::string GetString() const
-			{
-				//Get string that contains all errors in the error list
-				std::string errorString;
-				
-				for (size_t i = 0; i < error_list.size(); i++)
-				{
-					//Concatenate this error onto the full string, and concatenate a divider if not the last one
-					errorString.append(error_list[i]);
-					if (i < error_list.size() - 1)
-						errorString.append(" | ");
-				}
-				
-				return errorString;
-			}
+			//Return string that contains all errors
+			std::string ToString() const;
 			
-			//Get if we've recieved any errors
-			inline bool Errored() const { return error_list.size() > 0; }
+			//Operators
+			friend std::ostream& operator<<(std::ostream &out, const Error &x) { out << x.ToString(); return out; }
+			operator bool() const { return error_list.size() > 0; }
 	};
 }
