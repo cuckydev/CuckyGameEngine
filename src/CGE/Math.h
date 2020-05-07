@@ -13,6 +13,8 @@ Authors: Regan Green (cuckydev)
 #include <cmath>
 #include <algorithm>
 
+#include <iostream>
+
 //CuckyGameEngine namespace
 namespace CGE
 {
@@ -55,7 +57,7 @@ namespace CGE
 			Vector operator*(const T &rhs) const
 			{
 				Vector result;
-				std::transform(d, d + dimension, result.d, std::bind1st(std::multiplies<T>(), rhs));
+				std::transform(d, d + dimension, result.d, std::bind2nd(std::multiplies<T>(), rhs));
 				return result;
 			}
 			
@@ -69,7 +71,7 @@ namespace CGE
 			Vector operator/(const T &rhs) const
 			{
 				Vector result;
-				std::transform(d, d + dimension, result.d, std::bind1st(std::divides<T>(), rhs));
+				std::transform(d, d + dimension, result.d, std::bind2nd(std::divides<T>(), rhs));
 				return result;
 			}
 			
@@ -91,7 +93,7 @@ namespace CGE
 			
 			void operator*=(const T &rhs)
 			{
-				std::transform(d, d + dimension, d, std::bind1st(std::multiplies<T>(), rhs));
+				std::transform(d, d + dimension, d, std::bind2nd(std::multiplies<T>(), rhs));
 			}
 			
 			void operator/=(const Vector &rhs)
@@ -101,7 +103,7 @@ namespace CGE
 			
 			void operator/=(const T &rhs)
 			{
-				std::transform(d, d + dimension, d, std::bind1st(std::divides<T>(), rhs));
+				std::transform(d, d + dimension, d, std::bind2nd(std::divides<T>(), rhs));
 			}
 			
 			//Comparision operators
@@ -162,8 +164,7 @@ namespace CGE
 			{
 				Vector result;
 				T magnitude = Magnitude();
-				for (unsigned i = 0; i < dimension; i++)
-					result[i] = d[i] / magnitude;
+				std::transform(d, d + dimension, result.d, std::bind2nd(std::divides<T>(), magnitude));
 				return result;
 			}
 			
