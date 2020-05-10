@@ -85,6 +85,12 @@ namespace CGE
 				std::vector<DLCommand_Base*> commands;
 				
 			public:
+				//Destructor
+				void ~DisplayList()
+				{
+					//Clear and delete commands
+					Clear();
+				}
 				//Display list access
 				void Push(DLCommand_Base *command)
 				{
