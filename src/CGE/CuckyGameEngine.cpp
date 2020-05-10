@@ -83,5 +83,5 @@ bool CGE::Instance::SetConfig(const Config &config)
 	
 	//Remember the given config
 	use_config = config;
-	return (bool)error;
+	return error;
 }

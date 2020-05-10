@@ -63,10 +63,6 @@ bool CGE::Render::Interface_GLFW::SetConfig(const Config &config)
 	//Update window
 	if (window == nullptr)
 	{
-		//Destroy previous window
-		if (window != nullptr)
-			glfwDestroyWindow(window);
-		
 		//Set window hints
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
@@ -78,7 +74,7 @@ bool CGE::Render::Interface_GLFW::SetConfig(const Config &config)
 		if ((window = glfwCreateWindow(width, height, config.title.c_str(), monitor, nullptr)) == nullptr)
 			return error.Push("Failed to create GLFW window");
 			
-		//Initialize OpenGL (GLEW)
+		//Initialize OpenGL context
 		glfwMakeContextCurrent(window);
 		
 		//Initialize GLEW
@@ -90,10 +86,16 @@ bool CGE::Render::Interface_GLFW::SetConfig(const Config &config)
 		if (!GLEW_VERSION_3_2)
 			return error.Push("OpenGL 3.2 not supported through GLEW");
 	}
-	else if (config.fullscreen != useConfig.fullscreen)
+	else
 	{
-		//Set window to use new dimensions and monitor
-		glfwSetWindowMonitor(window, monitor, x, y, width, height, (config.framerate != 0) ? config.framerate : GLFW_DONT_CARE);
+		//Update title
+		glfwSetWindowTitle(window, config.title.c_str());
+		
+		//Update dimensions / fullscreen
+		if (config.fullscreen != use_config.fullscreen)
+			glfwSetWindowMonitor(window, monitor, x, y, width, height, (config.framerate != 0) ? config.framerate : GLFW_DONT_CARE);
+		else
+			glfwSetWindowSize(window, config.width, config.height);
 	}
 	
 	//Get how to do framerate limiting
@@ -121,9 +123,9 @@ bool CGE::Render::Interface_GLFW::SetConfig(const Config &config)
 	}
 	
 	//Use the given configuration
-	useConfig = config;
-	useConfig.width = width;
-	useConfig.height = height;
+	use_config = config;
+	use_config.width = width;
+	use_config.height = height;
 	return false;
 }
 
@@ -134,7 +136,7 @@ bool CGE::Render::Interface_GLFW::Flip()
 	{
 		//Wait for next frame
 		auto now = std::chrono::high_resolution_clock::now();
-		auto frameDuration = std::chrono::microseconds(1000000 / useConfig.framerate);
+		auto frameDuration = std::chrono::microseconds(1000000 / use_config.framerate);
 		lim_time += frameDuration;
 		if (now > lim_time + frameDuration * 10)
 			lim_time = now; //Fix timer if out of sync

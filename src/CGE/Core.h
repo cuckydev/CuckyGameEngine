@@ -4,7 +4,7 @@
 Project: CuckyGameEngine
 
 File: CGE/Core.h
-Purpose: Provide the core subsystem namespace
+Purpose: Declare the core subsystem namespace
 
 Authors: Regan Green (cuckydev)
 */
@@ -30,7 +30,7 @@ namespace CGE
 				virtual ~Interface_Base() {}
 				
 				//Get error
-				inline const Error &GetError() const { return error; }
+				const Error &GetError() const { return error; }
 		};
 	}
 }

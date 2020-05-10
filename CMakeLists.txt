@@ -15,6 +15,8 @@ project(CGE_Sample LANGUAGES CXX)
 add_executable(CGE_Sample WIN32
 	"Sample.cpp"
 	"src/CGE/CuckyGameEngine.cpp"
+	"src/CGE/Core.cpp"
+	"src/CGE/Render.cpp"
 	"src/CGE/Error.cpp"
 	"src/CGE/Math.cpp"
 )

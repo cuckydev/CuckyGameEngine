@@ -1,7 +1,5 @@
-#include <iostream>
 #include <CGE/CuckyGameEngine.h>
-#include <CGE/Math.h>
-#include <GL/glew.h>
+#include <iostream>
 
 int main()
 {
@@ -21,20 +19,42 @@ int main()
 		},
 	};
 	
-	CGE::Instance *cgeInstance = new CGE::Instance(config);
-	if (cgeInstance == nullptr)
+	CGE::Instance *cge_instance = new CGE::Instance(config);
+	if (cge_instance == nullptr)
 	{
 		std::cout << "CuckyGameInstance was not created" << std::endl;
 		return -1;
 	}
-	else if (cgeInstance->GetError())
+	else if (cge_instance->GetError())
 	{
-		std::cout << cgeInstance->GetError().ToString() << std::endl;
-		delete cgeInstance;
+		std::cout << cge_instance->GetError() << std::endl;
+		delete cge_instance;
 		return -1;
 	}
 	
+	//Render test
+	CGE::Render::Interface_Base *render = cge_instance->GetRender();
+	CGE::Render::DisplayList clear_DL;
+	float r;
+	while (1)
+	{
+		clear_DL.Clear();
+		clear_DL.Push(new CGE::Render::DLCommand_ClearColor(r, r, r));
+		clear_DL.Push(new CGE::Render::DLCommand_ClearDepth());
+		
+		if (render->Execute(&clear_DL) || render->Flip())
+		{
+			std::cout << cge_instance->GetError() << std::endl;
+			delete cge_instance;
+			return -1;
+		}
+		
+		r += 1.0f / 60.0f;
+		if (r > 1.0f)
+			r = 0.0f;
+	}
+	
 	//End CGE program
-	delete cgeInstance;
+	delete cge_instance;
 	return 0;
 }

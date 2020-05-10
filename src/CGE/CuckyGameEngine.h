@@ -62,10 +62,10 @@ namespace CGE
 			bool SetConfig(const Config &config);
 			
 			//Get sub-system interface pointers
-			inline Core::Interface_Base		*GetCore() const	{ return core; }
-			inline Render::Interface_Base	*GetRender() const	{ return render; }
+			Core::Interface_Base		*GetCore() const	{ return core; }
+			Render::Interface_Base	*GetRender() const	{ return render; }
 			
 			//Get error
-			inline const Error &GetError() const { return error; }
+			const Error &GetError() const { return error; }
 	};
 }

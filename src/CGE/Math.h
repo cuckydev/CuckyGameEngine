@@ -12,8 +12,7 @@ Authors: Regan Green (cuckydev)
 //Standard library
 #include <cmath>
 #include <algorithm>
-
-#include <iostream>
+#include <numeric>
 
 //CuckyGameEngine namespace
 namespace CGE
@@ -149,14 +148,12 @@ namespace CGE
 				if constexpr (dimension == 2)
 					return d[0] * rhs[1] - d[0] * rhs[2]; //Scalar
 				if constexpr (dimension == 3)
-					return Vector<dimension, T>{d[1] * rhs[2] - d[2] * rhs[1], 0, 0};
+					return Vector{d[1] * rhs[2] - d[2] * rhs[1], d[2] * rhs[0] - d[0] * rhs[2], d[0] * rhs[1] - d[1] * rhs[0]};
 			}
 			
 			T Magnitude() const
 			{
-				T result;
-				for (const T &i : d)
-					result += i * i;
+				T result = std::accumulate(d, d + dimension, 0, [](auto sum, auto x) { return sum + (x * x); });
 				return std::sqrt(result);
 			}
 			
@@ -171,8 +168,7 @@ namespace CGE
 			void Normalize()
 			{
 				T magnitude = Magnitude();
-				for (T &i : d)
-					i /= magnitude;
+				std::transform(d, d + dimension, d, std::bind2nd(std::divides<T>(), magnitude));
 			}
 		};
 	}
