@@ -26,11 +26,11 @@ namespace CGE
 				//Virtual destructor
 				virtual ~Interface_OpenGL() {}
 				
-				//Internal render interface
-				void ClearColor(float r, float g, float b);
-				void ClearDepth();
+				//General OpenGL render interface
+				bool ClearColor(float r, float g, float b);
+				bool ClearDepth();
 				
-				//Render interface
+				//Virtual render interface
 				virtual bool SetConfig(const Config &config) = 0;
 				virtual bool Flip() = 0;
 		};

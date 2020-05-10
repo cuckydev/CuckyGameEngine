@@ -34,15 +34,11 @@ int main()
 	
 	//Render test
 	CGE::Render::Interface_Base *render = cge_instance->GetRender();
-	CGE::Render::DisplayList clear_DL;
-	float r;
+	float r = 0.0f;
+	
 	while (1)
 	{
-		clear_DL.Clear();
-		clear_DL.Push(new CGE::Render::DLCommand_ClearColor(r, r, r));
-		clear_DL.Push(new CGE::Render::DLCommand_ClearDepth());
-		
-		if (render->Execute(&clear_DL) || render->Flip())
+		if (render->ClearColor(r, r, r) || render->ClearDepth() || render->Flip())
 		{
 			std::cout << cge_instance->GetError() << std::endl;
 			delete cge_instance;

@@ -14,13 +14,15 @@ Authors: Regan Green (cuckydev)
 #include "Render.h"
 
 //Internal render interface
-void CGE::Render::Interface_OpenGL::ClearColor(float r, float g, float b)
+bool CGE::Render::Interface_OpenGL::ClearColor(float r, float g, float b)
 {
 	glClearColor(r, g, b, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	return false;
 }
 
-void CGE::Render::Interface_OpenGL::ClearDepth()
+bool CGE::Render::Interface_OpenGL::ClearDepth()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
+	return false;
 }
