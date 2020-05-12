@@ -8,4 +8,4 @@ Authors: Regan Green (cuckydev)
 */
 
 //Declaration
-#include "Core.h"
+#include <CGE/Core.h>

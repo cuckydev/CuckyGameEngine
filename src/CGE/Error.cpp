@@ -8,7 +8,7 @@ Authors: Regan Green (cuckydev)
 */
 
 //Declaration
-#include "Error.h"
+#include <CGE/Error.h>
 
 //Return string that contains all errors
 std::string CGE::Error::ToString() const

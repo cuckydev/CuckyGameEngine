@@ -7,7 +7,7 @@ Purpose: Define the CuckyGameEngine instance class
 Authors: Regan Green (cuckydev)
 */
 
-#include "CuckyGameEngine.h"
+#include <CGE/CuckyGameEngine.h>
 
 //Include GLFW backend if used
 #ifdef CGE_COMPILE_GLFW

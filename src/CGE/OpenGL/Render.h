@@ -10,7 +10,7 @@ Authors: Regan Green (cuckydev)
 */
 
 //Base class
-#include "../Render.h"
+#include <CGE/Render.h>
 
 //CuckyGameEngine namespace
 namespace CGE
