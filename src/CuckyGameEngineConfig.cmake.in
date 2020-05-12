@@ -1,0 +1,16 @@
+@PACKAGE_INIT@
+
+if(NOT @CGE_BUILD_SHARED_LIBS@)
+	if(@CGE_COMPILE_GLFW@)
+		find_package(PkgConfig REQUIRED)
+		pkg_check_modules(glfw3 REQUIRED IMPORTED_TARGET glfw3)
+	endif()
+	
+	if(@CGE_COMPILE_GLFW@)
+		find_package(PkgConfig REQUIRED)
+		pkg_check_modules(glew REQUIRED IMPORTED_TARGET glew)
+	endif()
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/CuckyGameEngineTargets.cmake")
+check_required_components(CuckyGameEngine)

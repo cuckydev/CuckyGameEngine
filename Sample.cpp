@@ -1,4 +1,5 @@
 #include <CGE/CuckyGameEngine.h>
+#include <CGE/Math.h>
 #include <iostream>
 
 int main()
@@ -32,22 +33,18 @@ int main()
 		return -1;
 	}
 	
-	//Render test
+	//3D render test
 	CGE::Render::Interface_Base *render = cge_instance->GetRender();
-	float r = 0.0f;
+	CGE::Math::Matrix<float> mat = CGE::Math::PerspectiveMatrix<float>(0.785398f, 4.0f / 3.0f, 0.1f, 100.0f);
 	
 	while (1)
 	{
-		if (render->ClearColor(r, r, r) || render->ClearDepth() || render->Flip())
+		if (render->ClearColor(0.0f, 0.0f, 0.0f) || render->ClearDepth() || render->Flip())
 		{
-			std::cout << cge_instance->GetError() << std::endl;
+			std::cout << render->GetError() << std::endl;
 			delete cge_instance;
 			return -1;
 		}
-		
-		r += 1.0f / 60.0f;
-		if (r > 1.0f)
-			r = 0.0f;
 	}
 	
 	//End CGE program

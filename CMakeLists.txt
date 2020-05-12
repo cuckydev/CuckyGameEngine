@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
 
-###########################
-# CuckyGameEngine Options #
-###########################
-option(CGE_COMPILE_GLFW "Compile the GLFW backend" ON)
-
 #########
 # Setup #
 #########
@@ -14,11 +9,6 @@ project(CGE_Sample LANGUAGES CXX)
 
 add_executable(CGE_Sample WIN32
 	"Sample.cpp"
-	"src/CGE/CuckyGameEngine.cpp"
-	"src/CGE/Core.cpp"
-	"src/CGE/Render.cpp"
-	"src/CGE/Error.cpp"
-	"src/CGE/Math.cpp"
 )
 
 target_include_directories(CGE_Sample PRIVATE "src")
@@ -30,39 +20,15 @@ set_target_properties(CGE_Sample PROPERTIES
 	CXX_EXTENSIONS OFF
 )
 
-#######################
-# CGE Backend Linking #
-#######################
-find_package(PkgConfig QUIET)
-
-# Link and include GLFW backend
-if(CGE_COMPILE_GLFW)
-	# Include the backend code
-	target_compile_definitions(CGE_Sample PRIVATE CGE_COMPILE_GLFW)
-	target_sources(CGE_Sample PRIVATE "src/CGE/GLFW/Core.cpp")
-	target_sources(CGE_Sample PRIVATE "src/CGE/GLFW/Render.cpp")
-	
-	# Link GLFW3
-	find_package(GLFW3)
-	if (PKG_CONFIG_FOUND)
-		pkg_check_modules(glfw3 QUIET IMPORTED_TARGET glfw3)
-	endif()
-	target_compile_options(CGE_Sample PRIVATE ${glfw3_CFLAGS})
-	target_link_libraries(CGE_Sample PRIVATE ${glfw3_LDFLAGS})
-	
-	# Link GLEW
-	find_package(GLEW)
-	if (PKG_CONFIG_FOUND)
-		pkg_check_modules(glew QUIET IMPORTED_TARGET glew)
-	endif()
-	target_compile_options(CGE_Sample PRIVATE ${glew_CFLAGS})
-	target_link_libraries(CGE_Sample PRIVATE ${glew_LDFLAGS})
+########################
+# Link CuckyGameEngine #
+########################
+set(CGE_BUILD_SHARED_LIBS OFF)
+if(MSVC)
+	set(LIBC ON CACHE INTERNAL "" FORCE)	# Needed to prevent possible 'symbol already defined' errors
 endif()
-
-# Include OpenGL base code if an OpenGL backend is used
-if(CGE_COMPILE_GLFW)
-	target_sources(CGE_Sample PRIVATE "src/CGE/OpenGL/Render.cpp")
-endif()
+add_subdirectory("src" EXCLUDE_FROM_ALL)
+target_link_libraries(CGE_Sample PRIVATE CuckyGameEngine)
 
 ##########
 # Tweaks #

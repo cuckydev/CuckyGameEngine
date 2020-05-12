@@ -20,12 +20,17 @@ namespace CGE
 	//Math namespace
 	namespace Math
 	{
-		//Vector types
+		//Vector struct
 		template <unsigned dimension, class T>
 		struct Vector
 		{
-			//Dimensions
-			T d[dimension] = {0};
+			//Vector values
+			union
+			{
+				struct { T x, y, z, w; };
+				struct { T r, g, b, a; };
+				T d[dimension] = {0};
+			};
 			
 			//Operator overloads
 			T& operator[](unsigned i) { return d[i]; }
@@ -170,6 +175,69 @@ namespace CGE
 				T magnitude = Magnitude();
 				std::transform(d, d + dimension, d, std::bind2nd(std::divides<T>(), magnitude));
 			}
+		};
+		
+		//Quaternion struct
+		template <class T>
+		struct Quaternion
+		{
+			//Quaternion values
+			T x, y, z, w;
+			
+			//TODO: make this
+		};
+		
+		//Matrix struct
+		template <class T>
+		struct Matrix
+		{
+			//Matrix values
+			T m[16] = {
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1,
+			};
+		};
+		
+		//Matrix constructors
+		template <class T>
+		auto IdentityMatrix = Matrix<T>{
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1,
+		};
+		
+		template <class T>
+		Matrix<T> PerspectiveMatrix(const T &y_fov, const T &aspect_ratio, const T &near, const T &far)
+		{
+			//Get some common variables from given properties
+			T scale = std::tan(y_fov * 0.5 * std::acos(-1) / 180) * near; 
+			T r = aspect_ratio * scale;
+			T l = -r; 
+			T t = scale;
+			T b = -t; 
+			
+			//Construct matrix
+			return Matrix<T>{
+				2 * near / (r - l), 0, 0, 0,
+				0, 2 * near / (t - b), 0, 0,
+				(r + l) / (r - l), (t + b) / (t - b), -(far + near) / (far - near), -1, 
+				0, 0, -2 * far * near / (far - near), 0,
+			};
+		};
+		
+		template <class T>
+		Matrix<T> OrthoMatrix(const T &bottom, const T &top, const T &left, const T &right, const T &near, const T &far)
+		{
+			//Construct matrix
+			return Matrix<T>{
+				2 / (right - left), 0, 0, 0,
+				0, 2 / (top - bottom), 0, 0,
+				0, 0, -2 / (far - near), 0,
+				-(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far + near) / (far - near), 1,
+			};
 		};
 	}
 }
