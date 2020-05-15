@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.8)
 project(CGE_Sample LANGUAGES CXX)
 
 add_executable(CGE_Sample WIN32
-	"Sample.cpp"
+	"Main.cpp"
 )
 
 target_include_directories(CGE_Sample PRIVATE "src")

@@ -11,6 +11,12 @@ add_library(CuckyGameEngine
 	"src/CGE/Render.cpp"
 	"src/CGE/Error.cpp"
 	"src/CGE/Math.cpp"
+	
+	"include/CGE/CuckyGameEngine.h"
+	"include/CGE/Core.h"
+	"include/CGE/Render.h"
+	"include/CGE/Error.h"
+	"include/CGE/Math.h"
 )
 
 #######################
@@ -22,8 +28,10 @@ find_package(PkgConfig QUIET)
 if(CGE_COMPILE_GLFW)
 	# Include the backend code
 	target_compile_definitions(CuckyGameEngine PRIVATE CGE_COMPILE_GLFW)
-	target_sources(CuckyGameEngine PRIVATE "src/CGE/GLFW/Core.cpp")
-	target_sources(CuckyGameEngine PRIVATE "src/CGE/GLFW/Render.cpp")
+	target_sources(CuckyGameEngine PRIVATE	"src/CGE/GLFW/Core.cpp"
+											"src/CGE/GLFW/Core.h"
+											"src/CGE/GLFW/Render.cpp"
+											"src/CGE/GLFW/Render.h")
 	
 	# Link GLFW3
 	find_package(GLFW3)
@@ -44,7 +52,8 @@ endif()
 
 # Include OpenGL base code if an OpenGL backend is used
 if(CGE_COMPILE_GLFW)
-	target_sources(CuckyGameEngine PRIVATE "src/CGE/OpenGL/Render.cpp")
+	target_sources(CuckyGameEngine PRIVATE	"src/CGE/OpenGL/Render.cpp"
+											"src/CGE/OpenGL/Render.h")
 endif()
 
 ####################

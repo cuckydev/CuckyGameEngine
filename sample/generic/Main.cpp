@@ -39,7 +39,7 @@ int main()
 	
 	while (1)
 	{
-		if (render->ClearColor(0.0f, 1.0f, 0.0f) || render->ClearDepth() || render->Flip())
+		if (render->ClearColor(0.0f, 0.0f, 0.0f) || render->ClearDepth() || render->Flip())
 		{
 			std::cout << render->GetError() << std::endl;
 			delete cge_instance;

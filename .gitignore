@@ -1,2 +1,3 @@
-# Exclude the build directory
+# Exclude build directories
 build/
+sample/generic/build/
