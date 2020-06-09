@@ -8,7 +8,7 @@ int main()
 	static const CGE::Config config =
 	{
 		//Backend to be used
-		CGE::Backend::GLFW,
+		CGE::Backend::SDL2,
 		
 		//Render configuration
 		{
@@ -35,11 +35,49 @@ int main()
 	
 	//3D render test
 	CGE::Render::Interface_Base *render = cge_instance->GetRender();
+	
+	std::vector<CGE::Math::Vector<3, float>> position = {
+		{-1.0f, 1.0f, -2.0f},
+		{-1.0f, -1.0f, -2.0f},
+		{1.0f, -1.0f, -2.0f},
+		{1.0f, 1.0f, -2.0f},
+	};
+	
+	std::vector<CGE::Math::Vector<3, float>> normal = {
+		{0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f},
+	};
+	
+	std::vector<CGE::Math::Vector<2, float>> uv = {
+		{0.0f, 0.0f},
+		{0.0f, 1.0f},
+		{1.0f, 1.0f},
+		{1.0f, 0.0f},
+	};
+	
+	std::vector<CGE::Math::Vector<4, float>> colour = {
+		{1.0f, 1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f, 1.0f},
+	};
+	
+	std::vector<uint16_t> indices = {
+		0, 1, 3, 3, 1, 2
+	};
+	
+	CGE::Render::Mesh *mesh = render->NewMesh(indices, position, normal, uv, colour);
+	
 	CGE::Math::Matrix<float> mat = CGE::Math::PerspectiveMatrix<float>(0.785398f, 4.0f / 3.0f, 0.1f, 100.0f);
 	
 	while (1)
 	{
-		if (render->ClearColor(0.0f, 0.0f, 0.0f) || render->ClearDepth() || render->Flip())
+		if (render->ClearColor(0.25f, 0.9f, 0.5f) ||
+			render->ClearDepth() ||
+			render->Draw(mesh) ||
+			render->Flip())
 		{
 			std::cout << render->GetError() << std::endl;
 			delete cge_instance;

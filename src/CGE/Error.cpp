@@ -4,7 +4,7 @@ Project: CuckyGameEngine
 File: CGE/Error.cpp
 Purpose: Define the CuckyGameEngine error class
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 //Declaration

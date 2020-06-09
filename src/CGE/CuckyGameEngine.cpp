@@ -4,15 +4,15 @@ Project: CuckyGameEngine
 File: CGE/CuckyGameEngine.cpp
 Purpose: Define the CuckyGameEngine instance class
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 #include <CGE/CuckyGameEngine.h>
 
-//Include GLFW backend if used
-#ifdef CGE_COMPILE_GLFW
-	#include "GLFW/Core.h"
-	#include "GLFW/Render.h"
+//Include SDL2 backend if used
+#ifdef CGE_COMPILE_SDL2
+	#include "SDL2/Core.h"
+	#include "SDL2/Render.h"
 #endif
 
 //Constructor and destructor
@@ -46,10 +46,10 @@ bool CGE::Instance::SetConfig(const Config &config)
 		//Create new sub-system instances
 		switch (config.backend)
 		{
-		#ifdef CGE_COMPILE_GLFW
-			case Backend::GLFW:
-				core = new CGE::Core::Interface_GLFW();
-				render = new CGE::Render::Interface_GLFW(config.render_config);
+		#ifdef CGE_COMPILE_SDL2
+			case Backend::SDL2:
+				core = new CGE::Core::Interface_SDL2();
+				render = new CGE::Render::Interface_SDL2(config.render_config);
 				break;
 		#endif
 			default:

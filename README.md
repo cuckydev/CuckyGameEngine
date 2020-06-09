@@ -7,11 +7,9 @@ Game engine designed for 2D and 3D game development in C++17.
 CuckyGameEngine is a game engine that is designed for 2D and 3D game development, provided through multiple (not currently) backends.
 
 ## Backends and dependencies
-GLFW (ON by default)
-* GLFW (Interface with window manager, input, events, etc.)
+SDL2 (ON by default)
+* SDL2 (Interface with window manager, input, events, audio, etc.)
 * GLEW (OpenGL, for rendering)
-* GLM (OpenGL Mathematics, for rendering)
-* miniaudio (Audio interface)
 
 ## Compilation
 CuckyGameEngine comes with a CMakeLists file that will allow you to compile to a library and install it.

@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.12)
 
+###########
+# Options #
+###########
 option(CGE_BUILD_SHARED_LIBS "Build shared libraries" OFF)
-option(CGE_COMPILE_GLFW "Enable the GLFW (OpenGL) backend" ON)
+option(CGE_COMPILE_SDL2 "Enable the SDL2 (OpenGL) backend" ON)
 
+#########
+# Setup #
+#########
 project(CuckyGameEngine VERSION 0.0 DESCRIPTION "Multi-backend game engine that provides interfaces for rendering, input, audio, etc." LANGUAGES CXX)
 
 add_library(CuckyGameEngine
@@ -22,36 +28,29 @@ add_library(CuckyGameEngine
 #######################
 # CGE Backend Linking #
 #######################
-find_package(PkgConfig QUIET)
 
-# Link and include GLFW backend
-if(CGE_COMPILE_GLFW)
+# Link and include SDL2 backend
+if(CGE_COMPILE_SDL2)
 	# Include the backend code
-	target_compile_definitions(CuckyGameEngine PRIVATE CGE_COMPILE_GLFW)
-	target_sources(CuckyGameEngine PRIVATE	"src/CGE/GLFW/Core.cpp"
-											"src/CGE/GLFW/Core.h"
-											"src/CGE/GLFW/Render.cpp"
-											"src/CGE/GLFW/Render.h")
+	target_compile_definitions(CuckyGameEngine PRIVATE CGE_COMPILE_SDL2)
+	target_sources(CuckyGameEngine PRIVATE	"src/CGE/SDL2/Core.cpp"
+											"src/CGE/SDL2/Core.h"
+											"src/CGE/SDL2/Render.cpp"
+											"src/CGE/SDL2/Render.h")
 	
-	# Link GLFW3
-	find_package(GLFW3)
-	if (PKG_CONFIG_FOUND)
-		pkg_check_modules(glfw3 QUIET IMPORTED_TARGET glfw3)
-	endif()
-	target_compile_options(CuckyGameEngine PRIVATE ${glfw3_CFLAGS})
-	target_link_libraries(CuckyGameEngine PRIVATE ${glfw3_LDFLAGS})
-	
+	# Link SDL2
+	find_package(SDL2)
+	target_link_libraries(CuckyGameEngine PRIVATE SDL2::SDL2)
+
 	# Link GLEW
 	find_package(GLEW)
-	if (PKG_CONFIG_FOUND)
-		pkg_check_modules(glew QUIET IMPORTED_TARGET glew)
-	endif()
-	target_compile_options(CuckyGameEngine PRIVATE ${glew_CFLAGS})
-	target_link_libraries(CuckyGameEngine PRIVATE ${glew_LDFLAGS})
+	target_link_libraries(CuckyGameEngine PRIVATE GLEW::GLEW)
+	find_package(OpenGL)
+	target_link_libraries(CuckyGameEngine PRIVATE OpenGL::OpenGL)
 endif()
 
 # Include OpenGL base code if an OpenGL backend is used
-if(CGE_COMPILE_GLFW)
+if(CGE_COMPILE_SDL2)
 	target_sources(CuckyGameEngine PRIVATE	"src/CGE/OpenGL/Render.cpp"
 											"src/CGE/OpenGL/Render.h")
 endif()

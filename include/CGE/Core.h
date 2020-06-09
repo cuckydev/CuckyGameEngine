@@ -6,7 +6,7 @@ Project: CuckyGameEngine
 File: CGE/Core.h
 Purpose: Declare the core subsystem namespace
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 //CuckyGameEngine classes

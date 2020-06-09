@@ -3,10 +3,10 @@
 /*
 Project: CuckyGameEngine
 
-File: CGE/GLFW/Core.h
-Purpose: Declare the GLFW core subsystem class
+File: CGE/SDL2/Core.h
+Purpose: Declare the SDL2 core subsystem class
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 //Base class
@@ -18,12 +18,12 @@ namespace CGE
 	//Render namespace
 	namespace Core
 	{
-		class Interface_GLFW : public Interface_Base
+		class Interface_SDL2 : public Interface_Base
 		{
 			public:
 				//Constructor and destructor
-				Interface_GLFW();
-				~Interface_GLFW();
+				Interface_SDL2();
+				~Interface_SDL2();
 		};
 	}
 }

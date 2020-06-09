@@ -6,13 +6,14 @@ Project: CuckyGameEngine
 File: CGE/Math.h
 Purpose: Declare the CuckyGameEngine math interface
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 //Standard library
 #include <cmath>
 #include <algorithm>
 #include <numeric>
+#include <functional>
 
 //CuckyGameEngine namespace
 namespace CGE
@@ -25,12 +26,7 @@ namespace CGE
 		struct Vector
 		{
 			//Vector values
-			union
-			{
-				struct { T x, y, z, w; };
-				struct { T r, g, b, a; };
-				T d[dimension] = {0};
-			};
+			T d[dimension] = {0};
 			
 			//Operator overloads
 			T& operator[](unsigned i) { return d[i]; }

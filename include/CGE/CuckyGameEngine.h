@@ -6,7 +6,7 @@ Project: CuckyGameEngine
 File: CGE/CuckyGameEngine.h
 Purpose: Provide the CuckyGameEngine system to the user
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 //Standard library
@@ -26,7 +26,7 @@ namespace CGE
 	enum Backend
 	{
 		NONE,
-		GLFW,
+		SDL2,
 	};
 	
 	//Configuration structure
@@ -44,7 +44,7 @@ namespace CGE
 	{
 		private:
 			//Error
-			Error error;
+			CGE::Error error;
 			
 			//Used configuration
 			Config use_config;
@@ -66,6 +66,6 @@ namespace CGE
 			Render::Interface_Base	*GetRender() const	{ return render; }
 			
 			//Get error
-			const Error &GetError() const { return error; }
+			const CGE::Error &GetError() const { return error; }
 	};
 }

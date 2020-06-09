@@ -6,14 +6,16 @@ Project: CuckyGameEngine
 File: CGE/Render.h
 Purpose: Declare the render subsystem namespace
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 //Standard library
+#include <cstdint>
 #include <vector>
 
 //CuckyGameEngine classes
 #include "Error.h"
+#include "Math.h"
 
 //CuckyGameEngine namespace
 namespace CGE
@@ -32,9 +34,34 @@ namespace CGE
 			
 			//Compare operator
 			bool operator==(const Config &x) const
-			{ return (title == x.title) && (width == x.width) && (height == x.height) && (fullscreen == x.fullscreen) && (framerate == x.framerate); }
+			{ return (title == x.title) && (width == x.width) && (height == x.height) && (resizable == x.resizable) && (fullscreen == x.fullscreen) && (framerate == x.framerate); }
 			bool operator!=(const Config &x) const
-			{ return (title != x.title) || (width != x.width) || (height != x.height) || (fullscreen != x.fullscreen) || (framerate != x.framerate); }
+			{ return (title != x.title) || (width != x.width) || (height != x.height) || (resizable != x.resizable) || (fullscreen != x.fullscreen) || (framerate != x.framerate); }
+		};
+		
+		//Mesh base class
+		class Mesh
+		{
+			protected:
+				//Error
+				CGE::Error error;
+				
+			public:
+				//Virtual destructor
+				virtual ~Mesh() {}
+				
+				//Mesh interface
+				virtual bool SetData(	const std::vector<uint16_t> &indices,
+										const std::vector<CGE::Math::Vector<3, float>> &position,
+										const std::vector<CGE::Math::Vector<3, float>> &normal,
+										const std::vector<CGE::Math::Vector<2, float>> &uv,
+										const std::vector<CGE::Math::Vector<4, float>> &colour) = 0;
+				
+				//Internal mesh interface
+				virtual bool Draw() const = 0;
+				
+				//Get error
+				const CGE::Error &GetError() const { return error; }
 		};
 		
 		//Render subsystem interface base class
@@ -42,7 +69,7 @@ namespace CGE
 		{
 			protected:
 				//Error
-				Error error;
+				CGE::Error error;
 				
 				//Used configuration
 				Config use_config;
@@ -54,12 +81,20 @@ namespace CGE
 				//Render interface
 				virtual bool SetConfig(const Config &config) = 0;
 				
+				virtual Mesh *NewMesh(	const std::vector<uint16_t> &indices,
+										const std::vector<CGE::Math::Vector<3, float>> &position,
+										const std::vector<CGE::Math::Vector<3, float>> &normal,
+										const std::vector<CGE::Math::Vector<2, float>> &uv,
+										const std::vector<CGE::Math::Vector<4, float>> &colour) = 0;
+				
+				virtual bool Draw(const Mesh *mesh) = 0;
+				
 				virtual bool ClearColor(float r, float g, float b) = 0;
 				virtual bool ClearDepth() = 0;
 				virtual bool Flip() = 0;
 				
 				//Get error
-				const Error &GetError() const { return error; }
+				const CGE::Error &GetError() const { return error; }
 		};
 	}
 }

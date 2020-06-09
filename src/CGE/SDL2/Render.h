@@ -3,14 +3,15 @@
 /*
 Project: CuckyGameEngine
 
-File: CGE/GLFW/Render.h
-Purpose: Define the GLFW render subsystem base class
+File: CGE/SDL2/Render.h
+Purpose: Define the SDL2 render subsystem base class
 
-Authors: Regan Green (cuckydev)
+Authors: Regan "cuckydev" Green
 */
 
 //Libraries
-#include <GLFW/glfw3.h>
+#include "SDL_render.h"
+#include <GL/glew.h>
 
 //Standard library
 #include <chrono>
@@ -26,20 +27,14 @@ namespace CGE
 	//Render namespace
 	namespace Render
 	{
-		class Interface_GLFW : public Interface_OpenGL
+		class Interface_SDL2 : public Interface_OpenGL
 		{
 			private:
-				//GLFW window
-				GLFWwindow *window = nullptr;
-				
-				//Framerate limiter
-				bool use_vsync;
-				std::chrono::time_point<std::chrono::high_resolution_clock> lim_time;
 				
 			public:
 				//Constructor and destructor
-				Interface_GLFW(const Config &config);
-				~Interface_GLFW();
+				Interface_SDL2(const Config &config);
+				~Interface_SDL2();
 				
 				//Render interface
 				bool SetConfig(const Config &config);
