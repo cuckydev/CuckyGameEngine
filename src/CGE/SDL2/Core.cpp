@@ -13,14 +13,27 @@ Authors: Regan "cuckydev" Green
 //Declaration
 #include "Core.h"
 
-//Constructor and destructor
-CGE::Core::Interface_SDL2::Interface_SDL2()
+//CuckyGameEngine namespace
+namespace CGE
 {
-	//Initialize SDL2
-}
+	//Core namespace
+	namespace Core
+	{
+		//Constructor and destructor
+		Interface_SDL2::Interface_SDL2()
+		{
+			//Initialize SDL2
+			if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_EVENTS) < 0)
+			{
+				error.Push(SDL_GetError());
+				return;
+			}
+		}
 
-CGE::Core::Interface_SDL2::~Interface_SDL2()
-{
-	//Quit GLFW
-	
+		Interface_SDL2::~Interface_SDL2()
+		{
+			//Quit SDL2
+			SDL_Quit();
+		}
+	}
 }

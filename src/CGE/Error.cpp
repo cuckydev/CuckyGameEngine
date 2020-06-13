@@ -10,19 +10,23 @@ Authors: Regan "cuckydev" Green
 //Declaration
 #include <CGE/Error.h>
 
-//Return string that contains all errors
-std::string CGE::Error::ToString() const
+//CuckyGameEngine namespace
+namespace CGE
 {
-	//Get string that contains all errors in the error list
-	std::string errorString;
-	
-	for (size_t i = 0; i < error_list.size(); i++)
+	//Return string that contains all errors
+	std::string Error::ToString() const
 	{
-		//Concatenate this error onto the full string, and concatenate a divider if not the last one
-		errorString.append(error_list[i]);
-		if (i < error_list.size() - 1)
-			errorString.append(" | ");
+		//Get string that contains all errors in the error list
+		std::string errorString;
+		
+		for (size_t i = 0; i < error_list.size(); i++)
+		{
+			//Concatenate this error onto the full string, and concatenate a divider if not the last one
+			errorString.append(error_list[i]);
+			if (i < error_list.size() - 1)
+				errorString.append(" | ");
+		}
+		
+		return errorString;
 	}
-	
-	return errorString;
 }

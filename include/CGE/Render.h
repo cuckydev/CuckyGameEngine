@@ -30,6 +30,7 @@ namespace CGE
 			unsigned long width, height; //Window dimensions
 			bool resizable; //If window is resizable
 			bool fullscreen; //If window is fullscreen
+			bool set_fullscreen_size; //If size should be overridden with monitor's size in fullscreen
 			unsigned long framerate; //Target framerate (0 means only use VSync)
 			
 			//Compare operator
@@ -39,29 +40,10 @@ namespace CGE
 			{ return (title != x.title) || (width != x.width) || (height != x.height) || (resizable != x.resizable) || (fullscreen != x.fullscreen) || (framerate != x.framerate); }
 		};
 		
-		//Mesh base class
+		//Mesh types
 		class Mesh
 		{
-			protected:
-				//Error
-				CGE::Error error;
-				
-			public:
-				//Virtual destructor
-				virtual ~Mesh() {}
-				
-				//Mesh interface
-				virtual bool SetData(	const std::vector<uint16_t> &indices,
-										const std::vector<CGE::Math::Vector<3, float>> &position,
-										const std::vector<CGE::Math::Vector<3, float>> &normal,
-										const std::vector<CGE::Math::Vector<2, float>> &uv,
-										const std::vector<CGE::Math::Vector<4, float>> &colour) = 0;
-				
-				//Internal mesh interface
-				virtual bool Draw() const = 0;
-				
-				//Get error
-				const CGE::Error &GetError() const { return error; }
+			
 		};
 		
 		//Render subsystem interface base class
@@ -80,14 +62,6 @@ namespace CGE
 				
 				//Render interface
 				virtual bool SetConfig(const Config &config) = 0;
-				
-				virtual Mesh *NewMesh(	const std::vector<uint16_t> &indices,
-										const std::vector<CGE::Math::Vector<3, float>> &position,
-										const std::vector<CGE::Math::Vector<3, float>> &normal,
-										const std::vector<CGE::Math::Vector<2, float>> &uv,
-										const std::vector<CGE::Math::Vector<4, float>> &colour) = 0;
-				
-				virtual bool Draw(const Mesh *mesh) = 0;
 				
 				virtual bool ClearColor(float r, float g, float b) = 0;
 				virtual bool ClearDepth() = 0;

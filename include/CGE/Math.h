@@ -222,7 +222,7 @@ namespace CGE
 				(r + l) / (r - l), (t + b) / (t - b), -(far + near) / (far - near), -1, 
 				0, 0, -2 * far * near / (far - near), 0,
 			};
-		};
+		}
 		
 		template <class T>
 		Matrix<T> OrthoMatrix(const T &bottom, const T &top, const T &left, const T &right, const T &near, const T &far)
@@ -234,6 +234,6 @@ namespace CGE
 				0, 0, -2 / (far - near), 0,
 				-(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far + near) / (far - near), 1,
 			};
-		};
+		}
 	}
 }

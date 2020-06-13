@@ -30,6 +30,13 @@ namespace CGE
 		class Interface_SDL2 : public Interface_OpenGL
 		{
 			private:
+				//SDL window and OpenGL context
+				SDL_Window *window = nullptr;
+				SDL_GLContext context = nullptr;
+				
+				//Framerate limiter state
+				bool use_limiter;
+				double next_time, frame_time, timeout_time;
 				
 			public:
 				//Constructor and destructor
